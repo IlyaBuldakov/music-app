@@ -9,7 +9,7 @@
         <h2>Список всех исполнителей</h2>
         <div class="shadow-sm p-3 mb-5 bg-body rounded">
             @if($artists->total() == 0)
-                <p>Пока здесь пусто...</p>
+                <p>Ничего не найдено...</p>
                 <a href="{{ route('artists.index') }}"><button class="btn btn-primary">Попробовать ещё</button></a>
             @else
                 <form action="{{ route('artists.filter') }}" method="get">
