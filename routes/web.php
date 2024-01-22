@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Authentication
+//
 
-// Get
+// Authentication 'GET'
 Route::get('/login', function () {
     return view('auth/login');
 })->middleware('guest')->name('loginForm');
@@ -35,3 +36,9 @@ Route::get('/home', [UserController::class, 'home'])->middleware('auth')->name('
 Route::post('/register', [UserController::class, 'create'])->name('register');
 Route::post('/login', [UserController::class, 'authenticate'])->name('login');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
+// Artist
+Route::resource('artists', ArtistController::class);
+
+// User
+Route::get('/user/artists', [UserController::class, 'getOwnArtists'])->name('user.artists');
