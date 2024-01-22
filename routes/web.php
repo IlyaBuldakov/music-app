@@ -38,6 +38,7 @@ Route::post('/login', [UserController::class, 'authenticate'])->name('login');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 // Artist
+Route::get('artists/filter', [ArtistController::class, 'filter'])->name('artists.filter');
 Route::resource('artists', ArtistController::class);
 
 // User

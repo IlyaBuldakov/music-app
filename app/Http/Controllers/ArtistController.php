@@ -67,4 +67,10 @@ class ArtistController extends Controller
         }
         return redirect()->route('user.artists');
     }
+
+    // Filter. Returns filtered index - GET
+    public function filter(Request $request)
+    {
+        return view('artists/index', ['artists' => $this->artistService->getByName($request->get('artistName'))]);
+    }
 }
