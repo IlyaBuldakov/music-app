@@ -14,7 +14,12 @@ return new class extends Migration
         Schema::create('albums', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('description');
             $table->string('cover_path');
+            $table->bigInteger('user_id')->index();
+            $table->bigInteger('artist_id')->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('artist_id')->references('id')->on('artists')->onDelete('cascade');
         });
     }
 
