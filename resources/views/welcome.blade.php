@@ -13,7 +13,7 @@
             <hr class="my-4">
             <p>Посмотрите пожалуйста, мы очень старались.</p>
             <a class="btn btn-primary btn-lg" href="#" role="button">Альбомы</a>
-            <a class="btn btn-primary btn-lg" href="#" role="button">Исполнители</a>
+            <a class="btn btn-primary btn-lg" href="{{ route('artists.index') }}" role="button">Исполнители</a>
         </div>
     </div>
 

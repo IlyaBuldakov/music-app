@@ -12,10 +12,18 @@
             <p>Ваш e-mail: <strong>{{ $email }}</strong></p>
             <p>Ваше что-то ещё: <strong>42</strong></p>
             <p>И вот это, самое важное: <strong>109</strong></p>
+
+            <a href="{{ route('artists.create') }}">
+                <button class="btn btn-primary">Добавить исполнителя</button>
+            </a>
+
+            <a href="{{ route('user.artists') }}">
+                <button class="btn btn-secondary">Мои исполнители</button>
+            </a>
         </div>
         <form method="post" action="{{ route('logout')}}" style="position:relative; top: -30px;">
             @csrf
-            <button class="btn btn-primary" type="submit">Выход</button>
+            <button class="btn btn-danger" type="submit">Выход</button>
         </form>
     </div>
 @endsection
