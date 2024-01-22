@@ -33,6 +33,11 @@ class ArtistService
         return $this->artistRepository->getById($id);
     }
 
+    public function getByName($name)
+    {
+        return $this->artistRepository->getByName($name);
+    }
+
     public function store($name, $avatarPath, $userId)
     {
         $this->artistRepository->store($name, $avatarPath, $userId);
