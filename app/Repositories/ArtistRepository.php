@@ -45,4 +45,9 @@ class ArtistRepository implements ArtistRepositoryInterface
     {
         return Artist::whereId($id)->first();
     }
+
+    public function getByName($name)
+    {
+        return DB::table('artists')->where('name', 'like', "%{$name}%")->paginate(5);
+    }
 }

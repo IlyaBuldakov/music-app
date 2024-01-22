@@ -15,4 +15,6 @@ interface ArtistRepositoryInterface
     public function delete($id);
 
     public function getByUserId($userId);
+
+    public function getByName($name);
 }
