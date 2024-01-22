@@ -11,6 +11,12 @@
             @if($artists->total() == 0)
                 <p>Пока здесь пусто...</p>
             @else
+                <form action="{{ route('artists.filter') }}" method="get">
+                    <strong>Фильтрация</strong><br>
+                    <input type="text" name="artistName" placeholder="Введите имя исполнителя">
+                    <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Фильтр</button>
+                </form>
+                <br>
                 <table class="table table-hover">
                     <thead>
                     <tr>
