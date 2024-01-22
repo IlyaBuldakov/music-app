@@ -23,11 +23,11 @@ class ArtistRepository implements ArtistRepositoryInterface
         ]);
     }
 
-    public function update($id, $name, $avatarPath)
+    public function update($id, $name, ?string $avatarPath)
     {
         $artist = Artist::whereId($id)->first();
         $artist->name = $name;
-        $artist->avatar_path = $avatarPath;
+        if (!is_null($avatarPath)) $artist->avatar_path = $avatarPath;
         $artist->save();
     }
 

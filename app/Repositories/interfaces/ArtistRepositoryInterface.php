@@ -10,7 +10,7 @@ interface ArtistRepositoryInterface
 
     public function store($name, $avatarPath, $userId);
 
-    public function update($id, $name, $avatarPath);
+    public function update($id, $name, ?string $avatarPath);
 
     public function delete($id);
 
