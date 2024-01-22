@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('artists', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->bigInteger('user_id')->index();
             $table->string('avatar_path');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
