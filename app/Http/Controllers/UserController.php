@@ -60,4 +60,8 @@ class UserController extends Controller
     protected function getOwnArtists() {
         return view('artists/byuser', ['artists' => $this->userService->getOwnArtists(Auth::id())]);
     }
+
+    protected function getOwnAlbums() {
+        return view('albums/byuser', ['albums' => $this->userService->getOwnAlbums(Auth::id())]);
+    }
 }
