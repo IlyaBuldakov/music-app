@@ -17,8 +17,15 @@
                 <button class="btn btn-primary">Добавить исполнителя</button>
             </a>
 
+            <a href="{{ route('albums.create') }}">
+                <button class="btn btn-primary">Добавить альбом</button>
+            </a>
+
             <a href="{{ route('user.artists') }}">
                 <button class="btn btn-secondary">Мои исполнители</button>
+            </a>
+            <a href="{{ route('user.albums') }}">
+                <button class="btn btn-secondary">Мои альбомы</button>
             </a>
         </div>
         <form method="post" action="{{ route('logout')}}" style="position:relative; top: -30px;">

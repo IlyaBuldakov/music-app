@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('loginForm') }}">
+                <a class="nav-link" href="{{ route('albums.index') }}">
                     Список альбомов
                 </a>
             </li>

@@ -10,6 +10,7 @@
         <div class="shadow-sm p-3 mb-5 bg-body rounded">
             @if($artists->total() == 0)
                 <p>Пока здесь пусто...</p>
+                <a href="{{ route('artists.index') }}"><button class="btn btn-primary">Попробовать ещё</button></a>
             @else
                 <form action="{{ route('artists.filter') }}" method="get">
                     <strong>Фильтрация</strong><br>
@@ -22,13 +23,15 @@
                     <tr>
                         <th scope="col">Аватар</th>
                         <th scope="col">Имя</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($artists as $artist)
                         <tr>
                             <th><img width="100" src="{{ $artist->avatar_path }}" alt="Аватар исполнителя"></th>
-                            <th><p style="position:relative; top: 35px; font-size: 18px">{{ $artist->name }}</p></th>
+                            <th><p>{{ $artist->name }}</p></th>
+                            <th><a href="{{ route('artists.albums', ['artistId' => $artist->id]) }}"><button class="btn btn-primary">Альбомы</button></a></th>
                         </tr>
                     @endforeach
                     </tbody>
