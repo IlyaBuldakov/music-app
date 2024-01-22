@@ -18,11 +18,13 @@ class Album extends Model
     protected $fillable = [
         'name',
         'description',
-        'cover_path'
+        'cover_path',
+        'user_id',
+        'artist_id'
     ];
 
-    public function artists()
+    public function artist()
     {
-        $this->belongsToMany(Artist::class);
+        return $this->belongsTo(Artist::class);
     }
 }
