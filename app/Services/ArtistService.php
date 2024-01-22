@@ -2,25 +2,30 @@
 
 namespace App\Services;
 
+use App\Helpers\FileHelper;
 use App\Repositories\interfaces\ArtistRepositoryInterface;
-use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
 
 class ArtistService
 {
 
+    private RequestService $requestService;
+
     private ArtistRepositoryInterface $artistRepository;
+
+    private const AVATAR_PATH = '/artist/avatar/';
+
+    private const TARGET_ENTITY = 'artist';
 
     /**
      * @param ArtistRepositoryInterface $artistRepository
+     * @param RequestService $requestService
      */
-    public function __construct(ArtistRepositoryInterface $artistRepository)
+    public function __construct(ArtistRepositoryInterface $artistRepository,
+                                RequestService            $requestService)
     {
         $this->artistRepository = $artistRepository;
-    }
-
-    public function saveFile($avatarFile): string
-    {
-        return $this->saveAvatarLocally($avatarFile);
+        $this->requestService = $requestService;
     }
 
     public function getAll()
@@ -38,26 +43,30 @@ class ArtistService
         return $this->artistRepository->getByName($name);
     }
 
-    public function store($name, $avatarPath, $userId)
+    public function store($name, $avatarFile, $userId)
     {
-        $this->artistRepository->store($name, $avatarPath, $userId);
+        $this->artistRepository->store(
+            $name,
+            is_null($avatarFile)
+                ? $this->requestService->getAlbumImageUrl([
+                    'entity' => self::TARGET_ENTITY,
+                    'artist' => $name
+                ])
+                : FileHelper::saveFileLocally($avatarFile, self::AVATAR_PATH),
+            $userId);
     }
 
-    public function update($id, $name, $avatarFile)
+    public function update($id, $name, ?UploadedFile $avatarFile)
     {
-        $this->artistRepository->update($id, $name, $this->saveFile($avatarFile));
+        $this->artistRepository->update(
+            $id,
+            $name,
+            is_null($avatarFile) ? null : FileHelper::saveFileLocally($avatarFile, self::AVATAR_PATH)
+        );
     }
 
     public function delete($id)
     {
         $this->artistRepository->delete($id);
-    }
-
-    private function saveAvatarLocally($avatarFile): string
-    {
-        $publicQualifier = '/artist/avatar/';
-        $fileName = Str::random(10) . '.' . $avatarFile->getExtension();
-        $avatarFile->move(public_path() . $publicQualifier, $fileName);
-        return $publicQualifier . $fileName;
     }
 }
