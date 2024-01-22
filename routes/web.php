@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +40,15 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 // Artist
 Route::get('artists/filter', [ArtistController::class, 'filter'])->name('artists.filter');
+Route::get('artists/{artistId}/albums', [ArtistController::class, 'albums'])->name('artists.albums');
 Route::resource('artists', ArtistController::class);
 
+// Album
+Route::get('albums/filter', [AlbumController::class, 'filter'])->name('albums.filter');
+Route::resource('albums', AlbumController::class);
+
 // User
-Route::get('/user/artists', [UserController::class, 'getOwnArtists'])->name('user.artists');
+Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
+    Route::get('artists', [UserController::class, 'getOwnArtists'])->name('user.artists');
+    Route::get('albums', [UserController::class, 'getOwnAlbums'])->name('user.albums');
+});
