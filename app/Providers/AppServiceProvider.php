@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\AlbumRepository;
 use App\Repositories\ArtistRepository;
+use App\Repositories\interfaces\AlbumRepositoryInterface;
 use App\Repositories\interfaces\ArtistRepositoryInterface;
 use App\Repositories\interfaces\UserRepositoryInterface;
 use App\Repositories\UserRepository;
@@ -18,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(ArtistRepositoryInterface::class, ArtistRepository::class);
+        $this->app->bind(AlbumRepositoryInterface::class, AlbumRepository::class);
     }
 
     /**
