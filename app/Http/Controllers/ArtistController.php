@@ -16,6 +16,7 @@ class ArtistController extends Controller
      */
     public function __construct(ArtistService $artistService)
     {
+        $this->middleware('auth')->except('index', 'filter');
         $this->artistService = $artistService;
     }
 
@@ -34,10 +35,10 @@ class ArtistController extends Controller
     // Store in datasource - POST
     public function store(Request $request)
     {
-        if ($request->hasFile('avatar')) {
-            $path = $this->artistService->saveFile($request->file('avatar'));
-            $this->artistService->store($request->get('name'), $path, Auth::id());
-        }
+        $this->artistService->store(
+            $request->get('name'),
+            $request->file('avatar'),
+            Auth::id());
         return redirect()->route('user.artists');
     }
 
@@ -54,7 +55,11 @@ class ArtistController extends Controller
     // Update artist - PUT
     public function update(Request $request, $artistId)
     {
-        $this->artistService->update($artistId, $request->get('name'), $request->file('avatar'));
+        $this->artistService->update(
+            $artistId,
+            $request->get('name'),
+            $request->hasFile('avatar') ? $request->file('avatar') : null
+        );
         return redirect()->route('user.artists');
     }
 
@@ -72,5 +77,11 @@ class ArtistController extends Controller
     public function filter(Request $request)
     {
         return view('artists/index', ['artists' => $this->artistService->getByName($request->get('artistName'))]);
+    }
+
+    public function albums($artistId)
+    {
+        $artist = $this->artistService->getById($artistId);
+        return view('artists/albums', ['name' => $artist->name, 'albums' => $artist->albums]);
     }
 }
