@@ -2,20 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    private UserService $userService;
+
+    /**
+     * @param UserService $userService
+     */
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     protected function create(Request $request)
     {
         Auth::login(
-            User::create([
-                'email' => $request->get('email'),
-                'password' => Hash::make($request->get('password'))
-            ])
+            $this->userService->create(
+                $request->get('email'),
+                $request->get('password')
+            )
         );
         return redirect()->to("/");
     }
@@ -34,7 +44,8 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    protected function home() {
+    protected function home()
+    {
         return view('home', ['email' => Auth::user()->email]);
     }
 
@@ -44,5 +55,9 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/');
+    }
+
+    protected function getOwnArtists() {
+        return view('artists/byuser', ['artists' => $this->userService->getOwnArtists(Auth::id())]);
     }
 }
