@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+    nginx:
+        image: nginx
+        ports:
+            - 8080:80
+        volumes:
+            - ../:/var/www/music-app:cache
+            -   type: bind
+                source: nginx.conf
+                target: /etc/nginx/nginx.conf
+        depends_on:
+            - php-fpm
+        networks:
+            - nutnet
+    php-fpm:
+        build: .
+        volumes:
+            - ../:/var/www/music-app:cache
+        depends_on:
+            - postgres
+        networks:
+            - nutnet
+    postgres:
+        image: postgres
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_DB=app
+            - POSTGRES_PASSWORD=passwordhere
+        networks:
+            - nutnet
+networks:
+    nutnet:
+        driver: bridge
